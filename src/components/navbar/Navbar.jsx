@@ -11,9 +11,18 @@ function Navbar() {
   const [open, setOpen] = useState(false);
 
   const context = useContext(myContext);
-  const { mode, toggleMode } = context;
+  const { toggleMode, mode } = context;
+
+  const user = JSON.parse(localStorage.getItem("user"));
+
+  const logout = () => {
+    localStorage.clear("user");
+    window.location.href = "/";
+  };
+
   return (
-    <div className="bg-white sticky top-0 z-50">
+    <div className="bg-white sticky top-0 z-50  ">
+      {/* Mobile menu */}
       <Transition.Root show={open} as={Fragment}>
         <Dialog as="div" className="relative z-40 lg:hidden" onClose={setOpen}>
           <Transition.Child
@@ -73,38 +82,46 @@ function Navbar() {
                     </Link>
                   </div>
 
-                  <div className="flow-root">
-                    <Link
-                      to={"/dashboard"}
-                      className="-m-2 block p-2 font-medium text-gray-900"
-                      style={{ color: mode === "dark" ? "white" : "" }}
-                    >
-                      admin
-                    </Link>
-                  </div>
+                  {user?.user?.email === "vishwajeetrout8@gmail.com" ? (
+                    <div className="flow-root">
+                      <Link
+                        to={"/dashboard"}
+                        className="-m-2 block p-2 font-medium text-gray-900"
+                        style={{ color: mode === "dark" ? "white" : "" }}
+                      >
+                        admin
+                      </Link>
+                    </div>
+                  ) : (
+                    ""
+                  )}
 
-                  <div className="flow-root">
-                    <a
-                      className="-m-2 block p-2 font-medium text-gray-900 cursor-pointer"
-                      style={{ color: mode === "dark" ? "white" : "" }}
-                    >
-                      Logout
-                    </a>
-                  </div>
+                  {user ? (
+                    <div className="flow-root">
+                      <a
+                        onClick={logout}
+                        className="-m-2 block p-2 font-medium text-gray-900 cursor-pointer"
+                        style={{ color: mode === "dark" ? "white" : "" }}
+                      >
+                        Logout
+                      </a>
+                    </div>
+                  ) : (
+                    ""
+                  )}
                   <div className="flow-root">
                     <Link
                       to={"/"}
                       className="-m-2 block p-2 font-medium text-gray-900 cursor-pointer"
-                      style={{ color: mode === 'dark' ? 'white' : '', }}
                     >
-                      <FaUser /> <span>user</span>
+                      <FaUser />
                     </Link>
                   </div>
                 </div>
 
                 <div className="border-t border-gray-200 px-4 py-6">
                   <a href="#" className="-m-2 flex items-center p-2">
-                  <img
+                    <img
                       src="https://ecommerce-sk.vercel.app/img/indiaflag.png"
                       alt=""
                       className="block h-auto w-5 flex-shrink-0"
@@ -124,10 +141,17 @@ function Navbar() {
         </Dialog>
       </Transition.Root>
 
-      <header className="bg-white">
-        <h1 className="bg-pink-500 text-white flex items-center justify-center h-10 md:h-12 text-sm md:text-lg md:font-bold">
-          30% off is on grab your favourite items
-        </h1>
+      {/* desktop  */}
+      <header className="relative bg-white">
+        <p
+          className="flex h-10 items-center justify-center bg-pink-600 px-4 text-sm font-medium text-white sm:px-6 lg:px-8"
+          style={{
+            backgroundColor: mode === "dark" ? "rgb(62 64 66)" : "",
+            color: mode === "dark" ? "white" : "",
+          }}
+        >
+          Get free delivery on orders over ₹300
+        </p>
 
         <nav
           aria-label="Top"
@@ -153,13 +177,13 @@ function Navbar() {
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
                   viewBox="0 0 24 24"
-                  strokeWidth="1.5"
+                  stroke-width="1.5"
                   stroke="currentColor"
-                  className="w-6 h-6"
+                  class="w-6 h-6"
                 >
                   <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
                     d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
                   />
                 </svg>
@@ -195,20 +219,36 @@ function Navbar() {
                   >
                     Order
                   </Link>
-                  <Link
-                    to={"/dashboard"}
-                    className="text-sm font-medium text-gray-700 "
-                    style={{ color: mode === "dark" ? "white" : "" }}
-                  >
-                    Admin
-                  </Link>
 
-                  <a
-                    className="text-sm font-medium text-gray-700 cursor-pointer  "
-                    style={{ color: mode === "dark" ? "white" : "" }}
-                  >
-                    Logout
-                  </a>
+                  {user?.user?.email === "vishwajeetrout8@gmail.com" ? (
+                    <Link
+                      to={"/dashboard"}
+                      className="text-sm font-medium text-gray-700 "
+                      style={{ color: mode === "dark" ? "white" : "" }}
+                    >
+                      Admin
+                    </Link>
+                  ) : (
+                    ""
+                  )}
+
+                  {user ? (
+                    <a
+                      onClick={logout}
+                      className="text-sm font-medium text-gray-700 cursor-pointer  "
+                      style={{ color: mode === "dark" ? "white" : "" }}
+                    >
+                      Logout
+                    </a>
+                  ) : (
+                    <Link
+                      to={"/signup"}
+                      className="text-sm font-medium text-gray-700 cursor-pointer  "
+                      style={{ color: mode === "dark" ? "white" : "" }}
+                    >
+                      Signup
+                    </Link>
+                  )}
                 </div>
 
                 <div className="hidden lg:ml-8 lg:flex">
@@ -227,8 +267,7 @@ function Navbar() {
                   </a>
                 </div>
                 <div className="hidden lg:ml-8 lg:flex">
-                  <a href="#" className="flex items-center text-gray-700 "
-                  style={{ color: mode === 'dark' ? 'white' : '', }}>
+                  <a href="#" className="flex items-center text-gray-700 ">
                     <FaUser />
                   </a>
                 </div>
@@ -268,7 +307,6 @@ function Navbar() {
                         d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z"
                       />
                     </svg>
-
                     <span
                       className="ml-2 text-sm font-medium text-gray-700 group-"
                       style={{ color: mode === "dark" ? "white" : "" }}

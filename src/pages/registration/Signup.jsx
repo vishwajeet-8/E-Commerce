@@ -18,7 +18,17 @@ function Signup() {
   const signup = async () => {
     setLoading(true);
     if (name === "" || email === "" || password === "") {
-      return toast.error("All fields are required");
+      setLoading(false);
+      return toast.error("All fields are required", {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      });
     }
     try {
       const users = await createUserWithEmailAndPassword(auth, email, password);
@@ -31,11 +41,21 @@ function Signup() {
 
       const userRef = collection(fireDB, "users");
       await addDoc(userRef, user);
-      toast.success("Signup Succesfully");
+      toast.success("Signup Succesfully", {
+        position: "top-right",
+        autoClose: 2000,
+        hideProgressBar: true,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      });
       setName("");
       setEmail("");
       setPassword("");
       setLoading(false);
+      
     } catch (error) {
       console.log(error);
       setLoading(false);
