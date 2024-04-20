@@ -6,6 +6,7 @@ import { FiSun } from "react-icons/fi";
 import myContext from "../../context/data/myContext";
 import { RxCross2 } from "react-icons/rx";
 import { FaUser } from "react-icons/fa";
+import { useSelector } from "react-redux";
 
 function Navbar() {
   const [open, setOpen] = useState(false);
@@ -14,6 +15,8 @@ function Navbar() {
   const { toggleMode, mode } = context;
 
   const user = JSON.parse(localStorage.getItem("user"));
+
+  const cartItems = useSelector((state) => state.cart);
 
   const logout = () => {
     localStorage.clear("user");
@@ -114,7 +117,9 @@ function Navbar() {
                       to={"/"}
                       className="-m-2 block p-2 font-medium text-gray-900 cursor-pointer"
                     >
-                      <FaUser />
+                      <FaUser
+                        style={{ color: mode === "dark" ? "white" : "" }}
+                      />
                     </Link>
                   </div>
                 </div>
@@ -268,7 +273,7 @@ function Navbar() {
                 </div>
                 <div className="hidden lg:ml-8 lg:flex">
                   <a href="#" className="flex items-center text-gray-700 ">
-                    <FaUser />
+                    <FaUser style={{ color: mode === "dark" ? "white" : "" }} />
                   </a>
                 </div>
 
@@ -311,7 +316,7 @@ function Navbar() {
                       className="ml-2 text-sm font-medium text-gray-700 group-"
                       style={{ color: mode === "dark" ? "white" : "" }}
                     >
-                      0
+                      {cartItems.length}
                     </span>
                     <span className="sr-only">items in cart, view bag</span>
                   </Link>

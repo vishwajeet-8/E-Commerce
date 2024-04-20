@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import MyContext from "./myContext";
 import {
-  QuerySnapshot,
   Timestamp,
   addDoc,
   collection,
   deleteDoc,
   doc,
+  getDocs,
   onSnapshot,
   orderBy,
   query,
@@ -18,6 +18,7 @@ import { fireDB } from "../../firebase/FirebaseConfig";
 function myState(props) {
   const [mode, setMode] = useState("light");
   const [loading, setLoading] = useState(false);
+  const [order, setOrder] = useState([]);
   const [product, setProduct] = useState({
     title: null,
     price: null,
@@ -86,10 +87,6 @@ function myState(props) {
     }
   };
 
-  useEffect(() => {
-    getProduct();
-  }, []);
-
   const editHandle = (item) => {
     setProduct(item);
   };
@@ -114,7 +111,6 @@ function myState(props) {
   const deleteProduct = async (item) => {
     try {
       setLoading(true);
-      console.log(item.id);
       await deleteDoc(doc(fireDB, "products", item.id));
       toast.success("Product Deleted successfully");
       setLoading(false);
@@ -135,6 +131,52 @@ function myState(props) {
     }
   };
 
+  const getOrderData = async () => {
+    setLoading(true);
+    try {
+      const result = await getDocs(collection(fireDB, "orders"));
+      const ordersArray = [];
+      result.forEach((doc) => {
+        ordersArray.push(doc.data());
+      });
+      setOrder(ordersArray);
+      setLoading(false);
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+    }
+  };
+
+  const [user, setUser] = useState([]);
+
+  const getUserData = async () => {
+    setLoading(true);
+    try {
+      const result = await getDocs(collection(fireDB, "users"));
+      const usersArray = [];
+      result.forEach((doc) => {
+        usersArray.push(doc.data());
+        setLoading(false);
+      });
+      setUser(usersArray);
+      console.log(usersArray);
+      setLoading(false);
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    getProduct();
+    getOrderData();
+    getUserData();
+  }, []);
+
+  const [searchkey, setSearchkey] = useState("");
+  const [filterType, setFilterType] = useState("");
+  const [filterPrice, setFilterPrice] = useState("");
+
   return (
     <MyContext.Provider
       value={{
@@ -149,6 +191,14 @@ function myState(props) {
         editHandle,
         updateProduct,
         deleteProduct,
+        order,
+        user,
+        searchkey,
+        setSearchkey,
+        filterType,
+        setFilterType,
+        filterPrice,
+        setFilterPrice,
       }}
     >
       {props.children}
