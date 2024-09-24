@@ -69,7 +69,11 @@ function Filter() {
               }}
             >
               {products.map((item, index) => {
-                return <option value={item.category}>{item.category}</option>;
+                return (
+                  <option value={item.category} key={item.id}>
+                    {item.category}
+                  </option>
+                );
               })}
             </select>
             <select
@@ -82,7 +86,11 @@ function Filter() {
               }}
             >
               {products.map((item, index) => {
-                return <option value={item.price}>{item.price}</option>;
+                return (
+                  <option value={item.price} key={item.id}>
+                    {item.price}
+                  </option>
+                );
               })}
             </select>
           </div>

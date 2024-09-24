@@ -4,7 +4,6 @@ import myContext from "../../../context/data/myContext";
 function UpdateProduct() {
   const context = useContext(myContext);
   const { updateProduct, product, setProduct } = context;
-  console.log(product);
   return (
     <div>
       <div className=" flex justify-center items-center h-screen">

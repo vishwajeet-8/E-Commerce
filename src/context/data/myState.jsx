@@ -159,7 +159,6 @@ function myState(props) {
         setLoading(false);
       });
       setUser(usersArray);
-      console.log(usersArray);
       setLoading(false);
     } catch (error) {
       console.log(error);

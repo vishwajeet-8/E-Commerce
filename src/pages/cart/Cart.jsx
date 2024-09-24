@@ -69,7 +69,6 @@ function Cart() {
         year: "numeric",
       }),
     };
-    console.log(addressInfo);
 
     var options = {
       key: "rzp_test_8LVQwhcQk1CidC",
@@ -110,7 +109,6 @@ function Cart() {
     };
     var pay = new window.Razorpay(options);
     pay.open();
-    console.log(pay);
   };
 
   return (
@@ -229,7 +227,7 @@ function Cart() {
               >
                 Total
               </p>
-              <div className>
+              <div>
                 <p
                   className="mb-1 text-lg font-bold"
                   style={{ color: mode === "dark" ? "white" : "" }}

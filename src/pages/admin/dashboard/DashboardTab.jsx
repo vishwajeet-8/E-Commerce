@@ -123,7 +123,7 @@ function DashboardTab() {
                     {products.map((item, index) => {
                       const { title, price, imageUrl, category, date } = item;
                       return (
-                        <tbody className="">
+                        <tbody key={index}>
                           <tr
                             className="bg-gray-50 border-b  dark:border-gray-700"
                             style={{
@@ -237,7 +237,7 @@ function DashboardTab() {
                   return (
                     <table
                       className="w-full text-sm text-left text-gray-500 dark:text-gray-400"
-                      key={allorder.userid}
+                      key={index}
                     >
                       <thead
                         className="text-xs text-black uppercase bg-gray-200 "
@@ -289,7 +289,7 @@ function DashboardTab() {
                       {allorder.cartItems.map((item, index) => {
                         const { title, category, imageUrl, price } = item;
                         return (
-                          <tbody key={item.uid}>
+                          <tbody key={index}>
                             <tr
                               className="bg-gray-50 border-b  dark:border-gray-700"
                               style={{
